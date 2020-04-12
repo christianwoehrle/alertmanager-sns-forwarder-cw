@@ -1,10 +1,10 @@
 # alertmanager-sns-forwarder
 ###### Dispatching Panic Across the Organization
 
-[![Build Status](https://travis-ci.org/DataReply/alertmanager-sns-forwarder.svg?branch=master)](https://travis-ci.org/DataReply/alertmanager-sns-forwarder)
-[![go-doc](https://godoc.org/github.com/DataReply/alertmanager-sns-forwarder?status.svg)](https://godoc.org/github.com/DataReply/alertmanager-sns-forwarder)
-[![Go Report Card](https://goreportcard.com/badge/github.com/DataReply/alertmanager-sns-forwarder)](https://goreportcard.com/report/github.com/DataReply/alertmanager-sns-forwarder)
-[![Docker Hub](https://img.shields.io/badge/docker-hub-blue.svg?longCache=true&style=hub&logo=docker&label=docker)](https://hub.docker.com/r/datareply/alertmanager-sns-forwarder)
+[![GoDoc](https://godoc.org/github.com/christianwoehrle/alertmanager-sns-forwarder?status.svg)](https://godoc.org/github.com/christianwoehrle/alertmanager-sns-forwarder)
+[![CircleCI](https://img.shields.io/circleci/project/github/christianwoehrle/alertmanager-sns-forwarder.png)](https://circleci.com/gh/christianwoehrle/alertmanager-sns-forwarder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/christianwoehrle/alertmanager-sns-forwarder)](https://goreportcard.com/report/github.com/christianwoehrle/alertmanager-sns-forwarder)
+[![Docker Hub](https://img.shields.io/badge/docker-hub-blue.svg?longCache=true&style=hub&logo=docker&label=docker)](https://hub.docker.com/r/christianwoehrle/alertmanager-sns-forwarder)
 
 
 Prometheus [Alertmanager](https://github.com/prometheus/alertmanager) Webhook Receiver for forwarding alerts to AWS SNS. Inspired by https://github.com/inCaller/prometheus_bot.
