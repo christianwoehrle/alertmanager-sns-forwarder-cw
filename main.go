@@ -132,6 +132,7 @@ func main() {
 
 	// if region is not configured according to AWS SDK docs, but ARN prefix is provided
 	// the region will be parsed from the ARN prefix
+	config.WithCredentialsChainVerboseErrors(true)
 	if config.Region == nil && *arnPrefix != "" {
 		arnRegion := arnutil.GetRegionFromARN(*arnPrefix)
 		config.Region = &arnRegion
@@ -148,6 +149,7 @@ func main() {
 */
 
 	session, err := session.NewSession(config)
+
 
 	if err != nil {
 		log.Error(err)
@@ -288,6 +290,7 @@ func alertPOSTHandler(c *gin.Context) {
 
 
 	log.Debugln("+-----------Publish it--------------------------------------+")
+	log.Debugln(topicArn)
 	resp, err := svc.Publish(params)
 
 	if err != nil {
