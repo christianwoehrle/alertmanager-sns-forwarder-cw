@@ -5,7 +5,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/christianwoehrle/alertmanager-sns-forwarder.png)](https://circleci.com/gh/christianwoehrle/alertmanager-sns-forwarder)
 [![Go Report Card](https://goreportcard.com/badge/github.com/christianwoehrle/alertmanager-sns-forwarder)](https://goreportcard.com/report/github.com/christianwoehrle/alertmanager-sns-forwarder)
 [![Docker Hub](https://img.shields.io/badge/docker-hub-blue.svg?longCache=true&style=hub&logo=docker&label=docker)](https://hub.docker.com/r/christianwoehrle/alertmanager-sns-forwarder)
-
+ 
 
 Prometheus [Alertmanager](https://github.com/prometheus/alertmanager) Webhook Receiver for forwarding alerts to AWS SNS. Inspired by https://github.com/inCaller/prometheus_bot.
 
