@@ -126,6 +126,9 @@ func main() {
 		}),
 	)
 
+	config.WithCredentialsChainVerboseErrors(true)
+
+
 	// if region is not configured according to AWS SDK docs, but ARN prefix is provided
 	// the region will be parsed from the ARN prefix
 	if config.Region == nil && *arnPrefix != "" {
@@ -152,7 +155,7 @@ func main() {
 		arnPrefix = &detectedArnPrefix
 	}
 
-	svc = sns.New(session)
+	svc = sns.New(session, config)
 
 	if !*debug {
 		gin.SetMode(gin.ReleaseMode)
