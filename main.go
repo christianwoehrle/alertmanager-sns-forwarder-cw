@@ -137,9 +137,6 @@ func main() {
 		arnRegion := arnutil.GetRegionFromARN(*arnPrefix)
 		config.Region = &arnRegion
 	}
-	session, err := session.NewSessionWithOptions(session.Options {
-		CustomCABundle: 
-	}
 /*
 	session, err := session.NewSessionWithOptions(session.Options{
 		Config: *config,
