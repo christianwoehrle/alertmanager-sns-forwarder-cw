@@ -17,7 +17,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/linki/instrumented_http"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
@@ -117,6 +116,8 @@ func main() {
 
 	config := aws.NewConfig()
 
+
+/*
 	config.WithHTTPClient(
 		instrumented_http.NewClient(config.HTTPClient, &instrumented_http.Callbacks{
 			PathProcessor: func(path string) string {
@@ -125,8 +126,8 @@ func main() {
 			},
 		}),
 	)
-
 	config.WithCredentialsChainVerboseErrors(true)
+	*/
 
 
 	// if region is not configured according to AWS SDK docs, but ARN prefix is provided
@@ -135,10 +136,18 @@ func main() {
 		arnRegion := arnutil.GetRegionFromARN(*arnPrefix)
 		config.Region = &arnRegion
 	}
-
+/*
 	session, err := session.NewSessionWithOptions(session.Options{
 		Config: *config,
 	})
+	if err != nil {
+		log.Error(err)
+		return
+	}
+
+*/
+
+	session, err := session.NewSession(config)
 
 	if err != nil {
 		log.Error(err)
@@ -155,7 +164,7 @@ func main() {
 		arnPrefix = &detectedArnPrefix
 	}
 
-	svc = sns.New(session, config)
+	svc = sns.New(session)
 
 	if !*debug {
 		gin.SetMode(gin.ReleaseMode)
@@ -247,6 +256,8 @@ func alertPOSTHandler(c *gin.Context) {
 	}
 	requestString := string(requestData)
 
+	log.Debug("requestString", requestString)
+
 	if templatePath != nil && tmpH != nil {
 		var alerts Alerts
 
@@ -275,6 +286,8 @@ func alertPOSTHandler(c *gin.Context) {
 		TopicArn: aws.String(topicArn),
 	}
 
+
+	log.Debugln("+-----------Publish it--------------------------------------+")
 	resp, err := svc.Publish(params)
 
 	if err != nil {
