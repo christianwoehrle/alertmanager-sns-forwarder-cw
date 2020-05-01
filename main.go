@@ -260,9 +260,6 @@ func alertPOSTHandler(c *gin.Context) {
 		TopicArn: aws.String(topicArn),
 	}
 
-
-	log.Debugln("+-----------Publish it--------------------------------------+")
-	log.Debugln(topicArn)
 	resp, err := svc.Publish(params)
 
 	if err != nil {
