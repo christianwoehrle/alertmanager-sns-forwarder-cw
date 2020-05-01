@@ -4,14 +4,12 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"html/template"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"path"
 	"strings"
-	"time"
-
-	"html/template"
 
 	"github.com/DataReply/alertmanager-sns-forwarder/arnutil"
 	"github.com/DataReply/alertmanager-sns-forwarder/templateutil"
@@ -125,9 +123,7 @@ func main() {
 		config.Region = &arnRegion
 	}
 
-
 	session, err := session.NewSession(config)
-
 
 	if err != nil {
 		log.Error(err)
@@ -236,9 +232,6 @@ func alertPOSTHandler(c *gin.Context) {
 	}
 	requestString := string(requestData)
 
-	log.Debug("requestString", requestString)
-
-	time.Now().Hour()
 	if templatePath != nil && tmpH != nil {
 		var alerts Alerts
 
