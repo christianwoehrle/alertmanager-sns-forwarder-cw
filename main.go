@@ -114,10 +114,10 @@ func main() {
 	registerCustomPrometheusMetrics()
 
 	config := aws.NewConfig()
+	config.WithCredentialsChainVerboseErrors(true)
 
 	// if region is not configured according to AWS SDK docs, but ARN prefix is provided
 	// the region will be parsed from the ARN prefix
-	config.WithCredentialsChainVerboseErrors(true)
 	if config.Region == nil && *arnPrefix != "" {
 		arnRegion := arnutil.GetRegionFromARN(*arnPrefix)
 		config.Region = &arnRegion
