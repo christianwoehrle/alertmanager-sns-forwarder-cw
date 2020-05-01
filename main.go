@@ -16,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/linki/instrumented_http"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
@@ -114,8 +115,15 @@ func main() {
 	registerCustomPrometheusMetrics()
 
 	config := aws.NewConfig()
-	config.WithCredentialsChainVerboseErrors(true)
 
+	config.WithHTTPClient(
+		instrumented_http.NewClient(config.HTTPClient, &instrumented_http.Callbacks{
+			PathProcessor: func(path string) string {
+				parts := strings.Split(path, "/")
+				return parts[len(parts)-1]
+			},
+		}),
+	)
 	// if region is not configured according to AWS SDK docs, but ARN prefix is provided
 	// the region will be parsed from the ARN prefix
 	if config.Region == nil && *arnPrefix != "" {
@@ -123,8 +131,9 @@ func main() {
 		config.Region = &arnRegion
 	}
 
-	session, err := session.NewSession(config)
-
+	session, err := session.NewSessionWithOptions(session.Options{
+		Config: *config,
+	})
 	if err != nil {
 		log.Error(err)
 		return
