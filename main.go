@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"path"
 	"strings"
+	"time"
 
 	"html/template"
 
@@ -116,20 +117,6 @@ func main() {
 
 	config := aws.NewConfig()
 
-
-/*
-	config.WithHTTPClient(
-		instrumented_http.NewClient(config.HTTPClient, &instrumented_http.Callbacks{
-			PathProcessor: func(path string) string {
-				parts := strings.Split(path, "/")
-				return parts[len(parts)-1]
-			},
-		}),
-	)
-	config.WithCredentialsChainVerboseErrors(true)
-	*/
-
-
 	// if region is not configured according to AWS SDK docs, but ARN prefix is provided
 	// the region will be parsed from the ARN prefix
 	config.WithCredentialsChainVerboseErrors(true)
@@ -137,16 +124,7 @@ func main() {
 		arnRegion := arnutil.GetRegionFromARN(*arnPrefix)
 		config.Region = &arnRegion
 	}
-/*
-	session, err := session.NewSessionWithOptions(session.Options{
-		Config: *config,
-	})
-	if err != nil {
-		log.Error(err)
-		return
-	}
 
-*/
 
 	session, err := session.NewSession(config)
 
@@ -260,6 +238,7 @@ func alertPOSTHandler(c *gin.Context) {
 
 	log.Debug("requestString", requestString)
 
+	time.Now().Hour()
 	if templatePath != nil && tmpH != nil {
 		var alerts Alerts
 
