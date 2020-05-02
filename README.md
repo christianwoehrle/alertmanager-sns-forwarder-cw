@@ -6,6 +6,8 @@
 +[![Docker Hub](https://img.shields.io/badge/docker-hub-blue.svg?longCache=true&style=hub&logo=docker&label=docker)](https://hub.docker.com/r/christianwoehrle/alertmanager-sns-forwarder-cw)
 
 
+! This is a clone from https://github.com/DataReply/alertmanager-sns-forwarder. !
+
 Prometheus [Alertmanager](https://github.com/prometheus/alertmanager) Webhook Receiver for forwarding alerts to AWS SNS. Inspired by https://github.com/inCaller/prometheus_bot.
 
 ## Compile
