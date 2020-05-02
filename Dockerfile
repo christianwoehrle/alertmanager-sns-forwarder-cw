@@ -1,23 +1,16 @@
-# builder image
-FROM golang:alpine as builder
+# build stage
+FROM golang:1.14 AS build-env
+ADD . /src
+#disable crosscompiling
+ENV CGO_ENABLED=0
 
-RUN set -ex && apk --update --no-cache add \
-    git \
-    make
+#compile linux only
+ENV GOOS=linux
+RUN cd /src && go get -v -d && go build -ldflags '-w -s' -a -installsuffix cgo -o alertmanager-sns-forwarder
 
-WORKDIR /go/src/github.com/DataReply/alertmanager-sns-forwarder
-COPY . .
-RUN make all
-
-# final image
-FROM scratch
+# final stage
+FROM gcr.io/distroless/base
 LABEL maintainer="o.grodzki@reply.de"
+COPY --from=build-env /src/alertmanager-sns-forwarder /
+CMD ["/alertmanager-sns-forwarder"]
 
-# Add sh and other tools for debugging the container
-#COPY --from=builder /lib/ld-musl-x86_64.so.1 /lib/ld-musl-x86_64.so.1
-#COPY --from=builder /bin/ /bin/
-
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=builder /go/src/github.com/DataReply/alertmanager-sns-forwarder/bin/linux/alertmanager-sns-forwarder /bin/alertmanager-sns-forwarder
-
-ENTRYPOINT ["/bin/alertmanager-sns-forwarder"]
