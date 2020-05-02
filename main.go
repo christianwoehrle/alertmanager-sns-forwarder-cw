@@ -135,7 +135,7 @@ func main() {
 	session, err := session.NewSessionWithOptions(session.Options{
 		Config: *config,
 	})
-	
+
 	if err != nil {
 		log.Error(err)
 		return
