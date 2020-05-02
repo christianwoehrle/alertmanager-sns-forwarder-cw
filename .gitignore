@@ -48,3 +48,6 @@ bin
 main
 debug.test
 vendor
+
+
+alertmanager-sns-forwarder
